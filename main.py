@@ -11,7 +11,18 @@ def hello():
 
 @app.route('/index')
 def index():
-    return render_template('index.html')
+    return render_template('index.html')    #отрисовывает шаблон, лежащий в папке темплейтс
+
+
+@app.route('/day-<num>')
+def day(num):
+    return render_template(f'day-{num}.html')    #отрисовывает шаблон, лежащий в папке темплейтс
+
+
+@app.route('/photo-<num>')
+def photo(num):
+    return render_template(f'photo-{num}.html')
+
 
 
 if __name__ == '__main__':
