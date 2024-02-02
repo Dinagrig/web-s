@@ -1,5 +1,12 @@
   {%extends "base.html" %}
 
+  {% block header %}
+  <h1 class="page-title">Сайт начинающего верстальщика</h1>
+   <nav class="blog-navigation">
+    <a href= {{ url_for('hello') }}>На начальную</a>
+      </nav>
+  {% endblock %}
+
   {% block content %}
 
 
