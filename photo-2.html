@@ -1,34 +1,25 @@
-<!DOCTYPE html>
-<html lang="ru">
-  <head>
-    <meta charset="utf-8">
-    <title>Сайт начинающего верстальщика</title>
-    <link rel="stylesheet" href= {{ url_for('static', filename="style.css") }}>
-  </head>
-  <body>
-    <header>
-      <p>Блог</p>
-      <nav class="blog-navigation">
-        <a href= {{ url_for('day', num=15) }}>Вернуться к записи</a>
-      </nav>
-    </header>
-    <main>
-      <article>
-        <figure>
-          <img src= {{ url_for('static', filename="files/keks-2.jpg") }} width="486" height="315" alt="Кексик">
-          <figcaption>Кекс узнал, сколько стоил этот Rode Podcaster.</figcaption>
-        </figure>
-        <nav class="pagination">
-          <a href= {{ url_for('photo', num=1) }}>&lt; Назад</a>
-          <a href= {{ url_for('photo', num=3) }}>Вперёд &gt;</a>
-        </nav>
-      </article>
-      <aside class="partnership">
-        Тут могла бы быть ваша реклама
-      </aside>
-    </main>
-    <footer>
-      Подвал сайта
-    </footer>
-  </body>
-</html>
+{%extends "base.html" %}
+
+{% block header %}
+  <p class="page-title">Блог</p>
+   <nav class="blog-navigation">
+<a href= {{ url_for('day', num=15) }}>Назад к 15 дню</a>
+  </nav>
+{% endblock %}
+
+
+{% block content %}
+<article>
+  <figure>
+    <img src= {{ url_for('static', filename="files/keks-2.jpg") }} width="486" height="315" alt="Кексик">
+    <figcaption>Кекс узнал, сколько стоил этот Rode Podcaster.</figcaption>
+  </figure>
+  <nav class="pagination">
+    <a href= {{ url_for('photo', num=1) }}>&lt; Назад</a>
+    <a href= {{ url_for('photo', num=3) }}>Вперёд &gt;</a>
+  </nav>
+</article>
+<aside class="partnership">
+  Тут могла бы быть ваша реклама
+</aside>
+{% endblock %}
