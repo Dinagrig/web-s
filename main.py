@@ -66,14 +66,18 @@ def login():
     return render_template('login.html')
 
 
+@app.route('/logout', methods=['GET', 'POST'])
 def logout():
     session.pop('username')
     return redirect(url_for('login'))
+
 
 @app.route('/profile/<username>')
 def profile(username):
     if username == session.get('username'):
         return render_template('profile.html', username=username)
+    flash('Доступ запрещен', 'error')
+    return redirect(url_for('login', username=session['username']))
 
 
 @app.route('/day-<num>')

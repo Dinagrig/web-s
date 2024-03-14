@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block header %}
-      <p class="page-title">Регистрация</p>
+      <p class="page-title">Профиль</p>
        <nav class="blog-navigation">
     <a href= {{ url_for('hello') }}>На начальную</a>
       </nav>
@@ -13,18 +13,18 @@
 {% endblock %}
 
 {% block content %}
-    <h2>Авторизация</h2>
-    <p>Войдите на сайт блабла</p>
+    <h2>Ваш профиль</h2>
+    <p>Ваши данные:</p>
     {% for cat, msg in get_flashed_messages(with_categories=True) %}
         <div class="flash {{ cat }}">{{ msg }}</div>
     {% endfor %}
-    <form class="feedback-form" action="{{ url_for('login') }}" method="post">
+    <form class="feedback-form" action="{{ url_for('start') }}" method="post">
         <p>
             <label for="login">Логин:</label>
             <input type="text" name="login" id="login" placeholder="{{ username }}">
         </p>
 
 
-        <input class="btn" type="submit" value="Отправить">
+        <input class="btn" type="submit" value="На сайт">
     </form>
 {% endblock %}
