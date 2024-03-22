@@ -3,7 +3,7 @@
 {% block header %}
       <p class="page-title">Профиль</p>
        <nav class="blog-navigation">
-    <a href= {{ url_for('hello') }}>На начальную</a>
+    <a href= {{ url_for('start') }}>На стартовую</a>
       </nav>
       {% endblock %}
 
@@ -18,7 +18,7 @@
     {% for cat, msg in get_flashed_messages(with_categories=True) %}
         <div class="flash {{ cat }}">{{ msg }}</div>
     {% endfor %}
-    <form class="feedback-form" action="{{ url_for('start') }}" method="post">
+    <form class="feedback-form" action="" method="post">
         <p>
             <label for="login">Логин:</label>
             <input type="text" name="login" id="login" placeholder="{{ username }}">
