@@ -4,7 +4,74 @@
 {% block content %}
 <article>
     <h1>День девятнадцатый. Все еще продолжение конспекттттттттттта</h1>
-    <p>флешки (сообщения)</p>
+    <h3>flash-сообщения</h3>
+    <p>Сообщения flash - это некие уведомления, которые показываются пользователю, когда нам нужно объяснить ему, что происходит.
+    В нашем контексте это могут быть сообщения при успешной или проваленной авторизации.</p>
+    <p>Строятся они следующим образом:</p>
+    <pre>flash('Текст сообщения', 'success' - категория flash-сообщения)</pre>
+    <p>Категория сообщения отвечает за то, каким цветом в итоге оно будет покрашено. При категории 'success' сообщение покрасится зеленым,
+        а в случае ошибки - категория 'error' - ярко-оранжевым. Принимается сообщение с помощью функции get_flashed_messages(with_categories=True).
+    В нашем конкретном примере при приеме сообщения будет приниматься и его категория, а, соответственно, и отображаться на экране у пользователя.</p>
+    <p>Теперь мы можем интегрировать эти сообщения в наш уже имеющийся код. Для этого вспомним его (он страшный).</p>
+    <pre>
+        @app.route('/login', methods=['GET', 'POST'])
+        def login():
+            if request.method == 'POST':
+                if session.get('username'):
+                    return redirect(url_for('profile', username=session['username']))
+                for user in users:
+                    if request.form['login'] == user['username']:
+                        if request.form['password'] == user['password']:
+                            session['username'] = user['username']
+                            return redirect(url_for('profile', username=user['username']))
+
+            return render_template('login.html')
+    </pre>
+    <pre>
+        @app.route('/profile/<username>')
+        def profile(username):
+            if username == session.get('username'):
+                return render_template('profile.html', username=username)
+            return redirect(url_for('login', username=session['username']))
+    </pre>
+    <p>Теперь посмотрим, где они будут уместны. Например, при провале проверок пароля и юзернейма или успешной авторизации.
+    Чтобы добавить сообщения в наш код, просто приписываем ✨else✨ и непосредственно пишем их. Главное - правильно подобрать место и соблюсти все отступы.</p>
+    <pre>
+        @app.route('/login', methods=['GET', 'POST'])
+        def login():
+            if request.method == 'POST':
+                if session.get('username'):
+                    return redirect(url_for('profile', username=session['username']))
+                for user in users:
+                    if request.form['login'] == user['username']:
+                    |    if request.form['password'] == user['password']:
+                    |   |    flash('Авторизация успешна', 'success')
+                    |   |    session['username'] = user['username']
+                    |   |    return redirect(url_for('profile', username=user['username']))
+                    |    else:
+                    |        flash('Сообщение о неправильном пароле', 'error')
+                    else:
+                        flash('Сообщение о неправильном юзернейме.', 'error')
+
+            return render_template('login.html')
+    </pre>
+    <p>По такому же принципу поступаем с функцией профиль.</p>
+    <pre>
+        @app.route('/profile/<username>')
+        def profile(username):
+            if username == session.get('username'):
+                flash('Авторизация успешна', 'success')
+                return render_template('profile.html', username=username)
+            flash('Доступ запрещен', 'error')
+            return redirect(url_for('login', username=session['username']))
+    </pre>
+    <p>Приниматься и отображаться эти сообщения будут уже на самой странице, то есть в ее коде.
+    Чтобы принять все сообщения, создадим такой блок:</p>
+    <code>
+        {% for cat, msg in get_flashed_messages(with_categories=True) %}
+            <div class="flash {{ cat }}">{{ msg }}</div>    # БУДУ РАЗБИРАТЬСЯ С ТЕМ, КАК ЭТО ОТОБРАЗИТЬ
+        {% endfor %}
+    </code>
 </article>
 <aside class="partnership">
   Тут могла быть ваша реклама
